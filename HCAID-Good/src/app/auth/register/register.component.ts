@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,7 @@ export class RegisterComponent {
   registerSuccess = false;
   errorMessage = '';
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],  // Email validation
       password: ['', [Validators.required, Validators.minLength(6)]]  // Password validation
@@ -41,6 +42,7 @@ export class RegisterComponent {
       if (result) {
         this.registerSuccess = true;
         this.errorMessage = '';
+        this.router.navigate(['/']);
       } else {
         this.registerSuccess = false;
         this.errorMessage = 'Email already exists. Please try again.';

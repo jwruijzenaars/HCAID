@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent {
   loginSuccess = false;
   errorMessage = '';
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],  // Email validation
       password: ['', [Validators.required, Validators.minLength(6)]]  // Password validation
@@ -41,6 +42,7 @@ export class LoginComponent {
       if (result) {
         this.loginSuccess = true;
         this.errorMessage = '';
+        this.router.navigate(['/']);
       } else {
         this.loginSuccess = false;
         this.errorMessage = 'Invalid email or password. Please try again.';

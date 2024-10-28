@@ -1,1 +1,36 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark m-auto">
+    <div class="container-fluid w-75">
+        <a class="navbar-brand fs-3" href="/">Mistmachine</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link fs-4" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-4" href="/predictor">Predictor</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <ul class="navbar-nav me-auto">
+                    <li *ngIf="!authService.isAuthenticated()" class="nav-item ">
+                        <a class="nav-link fs-4" href="/login">Login</a>
+                    </li>
+                    <li>
+                        <a *ngIf="authService.isAuthenticated()" class="nav-link fs-4" (click)="logout()"
+                            type="button">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
 <router-outlet />
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom">
+    <div class="container-fluid w-75">
+        <h3 class="navbar-brand">Fixed footer</h3>
+    </div>
+</nav>
