@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent {
   loginSuccess = false;
   errorMessage = '';
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],  // Email validation
       password: ['', [Validators.required, Validators.minLength(6)]]  // Password validation
@@ -23,7 +24,7 @@ export class LoginComponent {
   get f() { return this.loginForm.controls; }
 
   // Handle form submission
-  onSubmit() {
+  async onSubmit() {
     this.submitted = true;
 
     // If form is invalid, exit the function
@@ -35,17 +36,15 @@ export class LoginComponent {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
 
-    // Mock authentication logic
-    if (email === 'test@example.com' && password === 'password123') {
-      this.loginSuccess = true;
-      this.errorMessage = '';
-    } else {
-      this.loginSuccess = false;
-      this.errorMessage = 'Invalid email or password. Please try again.';
-    }
-
-    // Here you would typically send the form data to the server
-    // Example: authService.login(email, password)
-    // But for now, we are just simulating it with mock data.
+    // Use Authservice to login
+    await this.authService.login(email, password).then((result) => {
+      if (result) {
+        this.loginSuccess = true;
+        this.errorMessage = '';
+      } else {
+        this.loginSuccess = false;
+        this.errorMessage = 'Invalid email or password. Please try again.';
+      }
+    });
   }
 }
