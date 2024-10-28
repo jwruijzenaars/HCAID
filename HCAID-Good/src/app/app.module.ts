@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './auth/register/register.component';
 import { PredictorComponent } from './predictor/predictor.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
