@@ -1,0 +1,81 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark m-auto">
+    <div class="container-fluid w-75">
+        <a class="navbar-brand fs-3" href="/">Mistmachine</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link fs-4" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-4 active" href="/predictor">Predictor</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item ">
+                        <a class="nav-link fs-4 " href="/login">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+<br>
+
+<div class="card w-50 m-auto">
+    <main class="form-signin card-body m-auto p-3 w-75">
+        <form [formGroup]="gameSelectorForm" (ngSubmit)="onSubmit()">
+
+            <div class="d-flex justify-content-center">
+                <h1 class="h3 mb-3 fw-normal">Game predictor</h1>
+            </div>
+            <br>
+
+            <div class="form-floating mb-6">
+                <select formControlName="title" class="form-select" id="floatingInput">
+                    <option value="1">Game 1</option>
+                    <option value="2">Game 2</option>
+                    <option value="3">Game 3</option>
+                    <option value="4">Game 4</option>
+                    <option value="5">Game 5</option>
+                </select>
+                <label for="floatingInput">Select a game</label>
+            </div>
+
+            <div *ngIf="submitted && f['title'].errors" class="text-danger">
+                <small *ngIf="f['title'].errors['required']">Game title is required.</small>
+            </div>
+
+            <br>
+
+            <div class="form-floating mb-3">
+                <label for="price">Maximum price</label>
+                <input type="range" formControlName="price" class="form-range" id="price" min="0" max="150" step="1"
+                    [value]="price" (input)="updatePrice($event)" />
+                <br>
+                <br>
+
+                <output [for]="price" id="priceOutput">Selected maximum price: {{ price }}</output>
+            </div>
+
+            <div *ngIf="submitted && f['price'].errors" class="text-danger">
+                <small *ngIf="f['price'].errors['required']">Price range is required.</small>
+            </div>
+            <br>
+
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary w-50 py-2" type="submit">
+                    Predict
+                </button>
+            </div>
+
+
+        </form>
+    </main>
+</div>
