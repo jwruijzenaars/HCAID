@@ -1,1 +1,15 @@
 # HCAID
+
+## TO DO:
+- Check what features we actually want to predict on:
+  - Pick game then show games to play based on the genres/tags.
+  - Pick genres/tags then show games to play based off of those ('evil': show most expensive games/games from certain dev or publisher are heavily biased).
+  - Pick one of these and add option to choose min/max rating ratio (can be 'evil' too).
+  - 
+
+- Use multi select for games/genres/tags?
+
+- Add model
+- Make pretty.
+- Add my account page (if we have time).
+- Possibility to save predictions?
