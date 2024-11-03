@@ -12,20 +12,29 @@
             <br>
 
             <div class="form-floating mb-6">
-                <select formControlName="title" class="form-select" id="floatingInput">
-                    <option value="1">Game 1</option>
-                    <option value="2">Game 2</option>
-                    <option value="3">Game 3</option>
-                    <option value="4">Game 4</option>
-                    <option value="5">Game 5</option>
-                </select>
-                <label for="floatingInput">Select a game</label>
+                <strong>Please choose a maximum of 3 games.</strong> If more are selected only the first 3 will be used.
             </div>
 
-            <div *ngIf="submitted && f['title'].errors" class="text-danger">
-                <small *ngIf="f['title'].errors['required']">Game title is required.</small>
+            <div class="form-floating mb-6">
+                <ng-multiselect-dropdown class="floating-input form-range" id="dropdown"
+                    [placeholder]="'Select game title'" [settings]="dropdownSettings" [data]="dropdownList"
+                    [(ngModel)]="selectedItems" [ngModelOptions]="{standalone: true}" (onSelect)="onItemSelect($event)">
+                </ng-multiselect-dropdown>
             </div>
+            <br>
 
+            <div *ngIf="submitted && selectedItems.length === 0" id="dropdown-popover"
+                class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong>At least 1 game is required.</strong>
+            </div>
+            <br>
+
+            <div *ngIf="submitted && selectedItems.length > 3" id="dropdown-popover"
+                class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong>More than 3 games have been selected.</strong>
+            </div>
             <br>
 
             <div class="form-floating mb-3">
@@ -38,8 +47,9 @@
                 <output [for]="price" id="priceOutput">Selected maximum price: {{ price }}</output>
             </div>
 
-            <div *ngIf="submitted && f['price'].errors" class="text-danger">
-                <small *ngIf="f['price'].errors['required']">Price range is required.</small>
+            <div *ngIf="submitted && f['price'].errors" class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong *ngIf="f['price'].errors['required']">Price range is required.</strong>
             </div>
             <br>
 
