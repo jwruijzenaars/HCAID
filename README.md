@@ -2,6 +2,8 @@
 
 ## TO DO:
 
+- Make Bad website
+
 - Check what features we actually want to predict on:
 
   - Pick game then show games to play based on the genres/tags.
