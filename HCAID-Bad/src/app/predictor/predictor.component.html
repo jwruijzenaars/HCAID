@@ -1,0 +1,65 @@
+<br>
+<br>
+<br>
+
+<div class="card w-50 m-auto">
+    <main class="form-signin card-body m-auto p-3 w-75">
+        <form [formGroup]="gameSelectorForm" (ngSubmit)="onSubmit()">
+
+            <div class="d-flex justify-content-center">
+                <h1 class="h3 mb-3 fw-normal">Game predictor</h1>
+            </div>
+            <br>
+
+            <div class="form-floating mb-6">
+                <strong>Please choose a maximum of 3 games.</strong> If more are selected only the first 3 will be used.
+            </div>
+
+            <div class="form-floating mb-6">
+                <ng-multiselect-dropdown class="floating-input form-range" id="dropdown"
+                    [placeholder]="'Select game title'" [settings]="dropdownSettings" [data]="dropdownList"
+                    [(ngModel)]="selectedItems" [ngModelOptions]="{standalone: true}" (onSelect)="onItemSelect($event)">
+                </ng-multiselect-dropdown>
+            </div>
+            <br>
+
+            <div *ngIf="submitted && selectedItems.length === 0" id="dropdown-popover"
+                class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong>At least 1 game is required.</strong>
+            </div>
+            <br>
+
+            <div *ngIf="submitted && selectedItems.length > 3" id="dropdown-popover"
+                class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong>More than 3 games have been selected.</strong>
+            </div>
+            <br>
+
+            <div class="form-floating mb-3">
+                <label for="price">Maximum price</label>
+                <input type="range" formControlName="price" class="form-range" id="price" min="0" max="150" step="1"
+                    [value]="price" (input)="updatePrice($event)" />
+                <br>
+                <br>
+
+                <output [for]="price" id="priceOutput">Selected maximum price: {{ price }}</output>
+            </div>
+
+            <div *ngIf="submitted && f['price'].errors" class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong *ngIf="f['price'].errors['required']">Price range is required.</strong>
+            </div>
+            <br>
+
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary w-50 py-2" type="submit">
+                    Predict
+                </button>
+            </div>
+
+
+        </form>
+    </main>
+</div>
