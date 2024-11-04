@@ -3,20 +3,101 @@
 <br />
 <br />
 
-<div class="card w-25 m-auto">
-    <main class="form-signin card-body m-auto p-3">
+<div class="card w-50 m-auto shadow-sm">
+    <main class="form-register card-body w-50 m-auto p-3">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="d-flex justify-content-center">
-                <h1 class="h3 mb-3 fw-normal">Register account</h1>
+                <h1 class="h3 mt-3 fw-normal">Register account</h1>
+            </div>
+            <hr>
+
+            <div class="form-floating mb-3">
+                <input type="name" formControlName="name" class="form-control" id="name" placeholder="name" />
+                <label for="name">Full legal name</label>
+                <div *ngIf="submitted && f['name'].errors" class="text-danger">
+                    <small *ngIf="f['name'].errors['required']">Full legal name is required.</small>
+                </div>
             </div>
 
             <div class="form-floating mb-3">
-                <input type="email" formControlName="email" class="form-control" id="floatingInput"
+                <input type="email" formControlName="email" class="form-control" id="email"
                     placeholder="name@example.com" />
-                <label for="floatingInput">Email address</label>
+                <label for="email">Email address</label>
                 <div *ngIf="submitted && f['email'].errors" class="text-danger">
                     <small *ngIf="f['email'].errors['required']">Email is required.</small>
                     <small *ngIf="f['email'].errors['email']">Please enter a valid email address.</small>
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="date" formControlName="dob" class="form-control" id="dob" placeholder="dob" />
+                <label for="dob">Date of birth</label>
+                <div *ngIf="submitted && f['dob'].errors" class="text-danger">
+                    <small *ngIf="f['dob'].errors['required']">Date of birth is required.</small>
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select formControlName="dob" class="form-control form-select" id="gender">
+                    <option value="" selected hidden>Select your gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                <label for="gender">Gender</label>
+                <div *ngIf="submitted && f['dob'].errors" class="text-danger">
+                    <small *ngIf="f['dob'].errors['required']">Gender is required</small>
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="occupation" formControlName="occupation" class="form-control" id="occupation"
+                    placeholder="occupation" />
+                <label for="occupation">Occupation</label>
+                <div *ngIf="submitted && f['occupation'].errors" class="text-danger">
+                    <small *ngIf="f['occupation'].errors['required']">Occupation is required.</small>
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select formControlName="married" class="form-control form-select" id="married">
+                    <option value="" selected hidden>Select your marital status</option>
+                    <option value="Married">Married</option>
+                    <option value="Single">Single</option>
+                    <option value="Complicated">It's complicated</option>
+                </select>
+                <label for="married">Marital status</label>
+                <div *ngIf="submitted && f['married'].errors" class="text-danger">
+                    <small *ngIf="f['married'].errors['required']">Marital status is required.</small>
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select formControlName="children" class="form-control form-select" id="children">
+                    <option value="" selected hidden>Select the amount of children you have</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                <label for="children">Amount of children</label>
+                <div *ngIf="submitted && f['children'].errors" class="text-danger">
+                    <small *ngIf="f['children'].errors['required']">Amount of children is required.</small>
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="income" formControlName="income" class="form-control" id="income" placeholder="income" />
+                <label for="income">Income</label>
+                <div *ngIf="submitted && f['income'].errors" class="text-danger">
+                    <small *ngIf="f['income'].errors['required']">Income is required.</small>
                 </div>
             </div>
 
@@ -50,3 +131,7 @@
         </form>
     </main>
 </div>
+
+<br>
+<br>
+<br>
