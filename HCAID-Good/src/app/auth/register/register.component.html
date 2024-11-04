@@ -3,12 +3,13 @@
 <br />
 <br />
 
-<div class="card w-25 m-auto">
-    <main class="form-signin card-body m-auto p-3">
+<div class="card w-50 shadow-sm m-auto">
+    <main class="form-signin card-body w-50 m-auto p-3">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="d-flex justify-content-center">
-                <h1 class="h3 mb-3 fw-normal">Register account</h1>
+                <h1 class="h3 mt-3 fw-normal">Register account</h1>
             </div>
+            <hr>
 
             <div class="form-floating mb-3">
                 <input type="email" formControlName="email" class="form-control" id="floatingInput"
