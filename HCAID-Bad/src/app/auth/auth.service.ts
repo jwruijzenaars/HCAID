@@ -12,12 +12,12 @@ export class AuthService {
     {
       id: 0,
       email: 'testuser@gmail.com',
-      password: 'password123'
+      password: 'Password123'
     },
     {
       id: 1,
       email: 'test123@gmail.com',
-      password: 'Password123'
+      password: 'password123'
     }
   ];
 
@@ -37,7 +37,7 @@ export class AuthService {
     return false;
   }
 
-  async register(email: string, password: string): Promise<boolean> {
+  async register(email: string, password: string, name: string, dob: Date, income: number, married: string, children: number, education: string, occupation: string): Promise<boolean> {
     for (let i = 0; i < this.database.length; i++) {
       if (this.database[i].email === email) {
         return false;
@@ -47,10 +47,18 @@ export class AuthService {
     const user = {
       id: this.database.length,
       email: email,
-      password: password
+      password: password,
+      name: name,
+      dob: dob,
+      income: income,
+      married: married,
+      children: children,
+      education: education,
+      occupation: occupation
     }
 
     this.database.push(user);
+    console.log("Added user: ", user);
     const token = this.tokenService.createToken(user);
     localStorage.setItem(this.tokenKey, token);
     return true;

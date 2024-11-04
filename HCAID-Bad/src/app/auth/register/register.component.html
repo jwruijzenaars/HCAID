@@ -1,7 +1,5 @@
 <br />
 <br />
-<br />
-<br />
 
 <div class="card w-50 m-auto shadow-sm">
     <main class="form-register card-body w-50 m-auto p-3">
@@ -94,10 +92,19 @@
             </div>
 
             <div class="form-floating mb-3">
-                <input type="income" formControlName="income" class="form-control" id="income" placeholder="income" />
+                <input type="number" formControlName="income" class="form-control" id="income" placeholder="income" />
                 <label for="income">Income</label>
                 <div *ngIf="submitted && f['income'].errors" class="text-danger">
                     <small *ngIf="f['income'].errors['required']">Income is required.</small>
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="education" formControlName="education" class="form-control" id="education"
+                    placeholder="education" />
+                <label for="education">Education</label>
+                <div *ngIf="submitted && f['education'].errors" class="text-danger">
+                    <small *ngIf="f['education'].errors['required']">Education is required.</small>
                 </div>
             </div>
 
@@ -132,6 +139,7 @@
     </main>
 </div>
 
+<br>
 <br>
 <br>
 <br>

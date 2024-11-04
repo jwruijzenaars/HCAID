@@ -45,9 +45,16 @@ export class RegisterComponent {
     // Placeholder for server-side authentication logic (mock)
     const email = this.registerForm.value.email;
     const password = this.registerForm.value.password;
+    const name = this.registerForm.value.name;
+    const dob = this.registerForm.value.dob;
+    const income = this.registerForm.value.income;
+    const married = this.registerForm.value.married;
+    const children = this.registerForm.value.children;
+    const education = this.registerForm.value.education;
+    const occupation = this.registerForm.value.occupation;
 
     // Use Authservice to register
-    await this.authService.register(email, password).then((result) => {
+    await this.authService.register(email, password, name, dob, income, married, children, education, occupation).then((result) => {
       if (result) {
         this.registerSuccess = true;
         this.errorMessage = '';

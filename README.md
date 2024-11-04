@@ -3,8 +3,8 @@
 ## TO DO:
 
 - Make Bad website bad
-  - Expand register page with data that's not needed for the predictions, and log everything in the console (privacy)
-  - Do other stuff
+
+  - Do evil stuff
 
 - Check what features we actually want to predict on:
 
