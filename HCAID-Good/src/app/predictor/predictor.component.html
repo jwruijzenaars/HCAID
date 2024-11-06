@@ -2,7 +2,15 @@
 <br>
 <br>
 
-<div class="card w-50 m-auto shadow-sm">
+<div *ngIf="gameList.length === 0 && genreList.length === 0 && categoriesList.length === 0" class="m-auto w-25">
+    <h1 class="h3 mb-3 fw-normal">Loading data, please wait...</h1>
+    <div class="spinner-border text-primary spinner-border-lg m-auto">
+
+    </div>
+</div>
+
+<div *ngIf="gameList.length !== 0 && genreList.length !== 0 && categoriesList.length !== 0"
+    class="card w-50 m-auto shadow-sm">
     <main class="form-signin card-body m-auto p-3 w-75">
         <form [formGroup]="gameSelectorForm" (ngSubmit)="onSubmit()">
 
@@ -11,29 +19,46 @@
             </div>
             <br>
 
-            <div class="form-floating mb-6">
-                <strong>Please choose a maximum of 3 games.</strong> If more are selected only the first 3 will be used.
+            <div class="form-floating mb-3">
+                <input type="text" formControlName="title" class="form-control" id="floatingInput"
+                    placeholder="name@example.com" />
+                <label for="floatingInput">Game title</label>
             </div>
 
+            <div *ngIf="submitted && f['title'].errors" class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong *ngIf="f['title'].errors['required']">A game title is required.</strong>
+            </div>
+            <br>
+
             <div class="form-floating mb-6">
-                <ng-multiselect-dropdown class="floating-input form-range" id="dropdown"
-                    [placeholder]="'Select game title'" [settings]="dropdownSettings" [data]="dropdownList"
-                    [(ngModel)]="selectedItems" [ngModelOptions]="{standalone: true}" (onSelect)="onItemSelect($event)">
+                <ng-multiselect-dropdown class="floating-input form-range" id="genres" [placeholder]="'Select Genres'"
+                    [settings]="genreddSettings" [data]="genreList" [(ngModel)]="selectedGenres"
+                    [ngModelOptions]="{standalone: true}" (onSelect)="onGenreSelect($event)">
                 </ng-multiselect-dropdown>
             </div>
             <br>
 
-            <div *ngIf="submitted && selectedItems.length === 0" id="dropdown-popover"
+            <div *ngIf="submitted && selectedGenres.length === 0" id="genres-popover"
                 class="alert alert-danger alert-dismissible fade show">
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong>At least 1 game is required.</strong>
+                <strong>At least 1 genre is required.</strong>
             </div>
             <br>
 
-            <div *ngIf="submitted && selectedItems.length > 3" id="dropdown-popover"
+            <div class="form-floating mb-6">
+                <ng-multiselect-dropdown class="floating-input form-range" id="categories"
+                    [placeholder]="'Select Categories'" [settings]="categoriesddSettings" [data]="categoriesList"
+                    [(ngModel)]="selectedCategories" [ngModelOptions]="{standalone: true}"
+                    (onSelect)="onCategorySelect($event)">
+                </ng-multiselect-dropdown>
+            </div>
+            <br>
+
+            <div *ngIf="submitted && selectedCategories.length === 0" id="categories-popover"
                 class="alert alert-danger alert-dismissible fade show">
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong>More than 3 games have been selected.</strong>
+                <strong>At least 1 category is required.</strong>
             </div>
             <br>
 
