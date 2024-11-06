@@ -63,18 +63,18 @@
             <br>
 
             <div class="form-floating mb-3">
-                <label for="price">Maximum price</label>
+                <label for="price">Price</label>
                 <input type="range" formControlName="price" class="form-range" id="price" min="0" max="150" step="1"
                     [value]="price" (input)="updatePrice($event)" />
                 <br>
                 <br>
 
-                <output [for]="price" id="priceOutput">Selected maximum price: {{ price }}</output>
+                <output [for]="price" id="priceOutput">Selected game price: {{ price }}</output>
             </div>
 
             <div *ngIf="submitted && f['price'].errors" class="alert alert-danger alert-dismissible fade show">
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong *ngIf="f['price'].errors['required']">Price range is required.</strong>
+                <strong *ngIf="f['price'].errors['required']">Price is required.</strong>
             </div>
             <br>
 
