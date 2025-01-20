@@ -26,7 +26,7 @@ export class CsvService {
 
   csvToPlatformArray(data: string): any {
     const lines = data.split('\n');
-    const result: string[] = [];
+    const result: Platform[] = [];
     const headers = lines[0].split(',');
 
     console.log('Headers: ', headers);
@@ -43,8 +43,12 @@ export class CsvService {
 
       // check if the platform is already in the result
       for (const platform of platforms) {
-        if (!result.includes(platform.trim())) {
-          result.push(platform.trim());
+        const newPlatform: Platform = {
+          platform: platform.trim()
+        };
+
+        if (!result.some((item) => item.platform === newPlatform.platform)) {
+          result.push(newPlatform);
         }
       }
     }

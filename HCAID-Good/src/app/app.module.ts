@@ -12,6 +12,7 @@ import { PredictorComponent } from './predictor/predictor.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { ResultComponent } from './result/result.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     HomeComponent,
     RegisterComponent,
-    PredictorComponent
+    PredictorComponent,
+    ResultComponent
   ],
   imports: [
     BrowserModule,

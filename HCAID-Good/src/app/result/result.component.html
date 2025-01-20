@@ -1,0 +1,79 @@
+<br>
+<br>
+<br>
+
+<div class="card w-50 m-auto shadow-sm">
+    <main class="form-signin card-body m-auto p-3 w-75">
+        <div class="d-flex justify-content-center">
+            <h1 class="h3 mb-3 fw-normal">Prediction Result</h1>
+        </div>
+        <br>
+
+        <h2 class="h4 mb-3 fw-normal">Game information:</h2>
+        <div>
+            <strong>Game Title: </strong>{{ title }}
+        </div>
+        <div>
+            <strong>Platforms: </strong>
+            <ul>
+                <li *ngFor="let platform of platforms">
+                    {{ platform }}
+                </li>
+            </ul>
+        </div>
+        <div>
+            <strong>Categories: </strong>
+            <ul>
+                <li *ngFor="let category of categories">
+                    {{ category }}
+                </li>
+            </ul>
+        </div>
+        <div>
+            <strong>Price: </strong>{{ price }}
+        </div>
+        <br>
+
+        <div class="alert alert-success" *ngIf="isPositive">
+            <strong>Prediction: Positive</strong>
+        </div>
+        <div class="alert alert-danger" *ngIf="!isPositive">
+            <strong>Prediction: Negative</strong>
+        </div>
+
+        <br>
+        <div *ngIf="isPositive">
+            <label for="confidence">Prediction Confidence: 82%</label>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
+                    style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!isPositive">
+            <label for="confidence">Prediction Confidence: 82%</label>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar"
+                    style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <h5>Input Importance:</h5>
+        <p>Which of the inputs were the most important. This can give better insights as to why this prediction was
+            made.</p>
+        <ul>
+            <li *ngFor="let feature of featureImportance">
+                {{ feature.name }}: {{ feature.percentage }}%
+            </li>
+        </ul>
+
+        <br>
+
+    </main>
+</div>
+
+<br>
+<br>
+<br>

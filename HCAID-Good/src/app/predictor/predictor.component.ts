@@ -5,6 +5,7 @@ import { CsvService } from './csv-service.service';
 import { DropDownGame } from './dropdown-game';
 import { Category } from './category';
 import { Platform } from './platform';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-predictor',
@@ -18,10 +19,8 @@ export class PredictorComponent {
   errorMessage = '';
   showAlert = false;
   price = 0;
-  gameList: DropDownGame[] = [];
   platformList: Platform[] = [];
   categoriesList: Category[] = [];
-  selectedGames = [];
   selectedPlatforms = [];
   selectedCategories = [];
   gameddSettings: IDropdownSettings = {};
@@ -29,22 +28,10 @@ export class PredictorComponent {
   categoriesddSettings: IDropdownSettings = {};
 
   ngOnInit() {
-    this.gameddSettings = {
-      singleSelection: false,
-      idField: 'appid',
-      textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 15,
-      allowSearchFilter: true,
-      allowRemoteDataSearch: true,
-      enableCheckAll: false
-    };
-
     this.platformddSettings = {
       singleSelection: false,
-      idField: 'genre',
-      textField: 'genre',
+      idField: 'platform',
+      textField: 'platform',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 15,
@@ -65,10 +52,6 @@ export class PredictorComponent {
       enableCheckAll: false
     };
 
-    this.csvService.getDropDownGames().subscribe((data: DropDownGame[]) => {
-      this.gameList = data;
-    });
-
     this.csvService.getCategories().subscribe((data: Category[]) => {
       this.categoriesList = data;
     });
@@ -78,7 +61,7 @@ export class PredictorComponent {
     });
   }
 
-  constructor(private formBuilder: FormBuilder, private csvService: CsvService) {
+  constructor(private formBuilder: FormBuilder, private csvService: CsvService, private router: Router) {
     this.gameSelectorForm = this.formBuilder.group({
       title: ['', [Validators.required]],
       price: ['', [Validators.required]]
@@ -105,18 +88,37 @@ export class PredictorComponent {
     this.submitted = true;
 
     // If form is invalid, exit the function
-    if (this.gameSelectorForm.invalid || this.selectedGames.length === 0 || this.selectedGames.length > 3) {
+    if (this.gameSelectorForm.invalid) {
       return;
     }
 
     // Placeholder for server-side authentication logic (mock)
-    const names = (this.selectedGames as DropDownGame[]).map((item) => item.name);
+    const title = this.gameSelectorForm.value.title;
     const platforms = (this.selectedPlatforms as Platform[]).map((item) => item.platform);
     const categories = (this.selectedCategories as Category[]).map((item) => item.category);
     const price = this.gameSelectorForm.value.price;
 
     // Do prediction here
     console.log("Do prediction here...");
+
+    // Mock prediction response
+    const prediction = {
+      result: true, // Example: Positive prediction
+      confidence: 82, // Example confidence
+      featureImportance: [
+        { name: 'Title', percentage: 40 },
+        { name: 'Categories', percentage: 30 },
+        { name: 'Platforms', percentage: 20 },
+        { name: 'Price', percentage: 10 }
+      ],
+      title,
+      platforms,
+      categories,
+      price
+    };
+
+    // Navigate to the ResultComponent with data
+    this.router.navigate(['/prediction-result'], { state: { data: prediction } });
   }
 
   updatePrice(event: Event): void {
