@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { CsvService } from './csv-service.service';
-import { Game } from './game';
 import { DropDownGame } from './dropdown-game';
-import { Genre } from './category copy';
 import { Category } from './category';
+import { Platform } from './platform';
 
 @Component({
   selector: 'app-predictor',
@@ -20,13 +19,13 @@ export class PredictorComponent {
   showAlert = false;
   price = 0;
   gameList: DropDownGame[] = [];
-  genreList: Genre[] = [];
+  platformList: Platform[] = [];
   categoriesList: Category[] = [];
   selectedGames = [];
-  selectedGenres = [];
+  selectedPlatforms = [];
   selectedCategories = [];
   gameddSettings: IDropdownSettings = {};
-  genreddSettings: IDropdownSettings = {};
+  platformddSettings: IDropdownSettings = {};
   categoriesddSettings: IDropdownSettings = {};
 
   ngOnInit() {
@@ -42,7 +41,7 @@ export class PredictorComponent {
       enableCheckAll: false
     };
 
-    this.genreddSettings = {
+    this.platformddSettings = {
       singleSelection: false,
       idField: 'genre',
       textField: 'genre',
@@ -70,17 +69,18 @@ export class PredictorComponent {
       this.gameList = data;
     });
 
-    this.csvService.getGenres().subscribe((data: Genre[]) => {
-      this.genreList = data;
-    });
-
     this.csvService.getCategories().subscribe((data: Category[]) => {
       this.categoriesList = data;
+    });
+
+    this.csvService.getPlatforms().subscribe((data: Platform[]) => {
+      this.platformList = data;
     });
   }
 
   constructor(private formBuilder: FormBuilder, private csvService: CsvService) {
     this.gameSelectorForm = this.formBuilder.group({
+      title: ['', [Validators.required]],
       price: ['', [Validators.required]]
     });
   }
@@ -92,7 +92,7 @@ export class PredictorComponent {
     console.log(item);
   }
 
-  onGenreSelect(item: any) {
+  onPlatformSelect(item: any) {
     console.log(item);
   }
 
@@ -111,7 +111,7 @@ export class PredictorComponent {
 
     // Placeholder for server-side authentication logic (mock)
     const names = (this.selectedGames as DropDownGame[]).map((item) => item.name);
-    const genres = (this.selectedGenres as Genre[]).map((item) => item.genre);
+    const platforms = (this.selectedPlatforms as Platform[]).map((item) => item.platform);
     const categories = (this.selectedCategories as Category[]).map((item) => item.category);
     const price = this.gameSelectorForm.value.price;
 

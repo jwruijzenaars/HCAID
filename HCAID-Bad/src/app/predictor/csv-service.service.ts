@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Game } from './game';
 import { DropDownGame } from './dropdown-game';
-import { Genre } from './category copy';
 import { Category } from './category';
+import { Platform } from './platform';
 
 @Injectable({
   providedIn: 'root'
@@ -55,18 +55,18 @@ export class CsvService {
     return result;
   }
 
-  getGenres(): Observable<Genre[]> {
-    // read a csv file and return the list of genres
+  getPlatforms(): Observable<Platform[]> {
+    // read a csv file and return the list of platforms
     console.log('Reading the csv file');
 
     return this.http.get(this.csvUrl, { responseType: 'text' }).pipe(
-      map(data => this.csvToGenreArray(data))
+      map(data => this.csvToPlatformArray(data))
     );
   }
 
-  csvToGenreArray(data: string): any {
+  csvToPlatformArray(data: string): any {
     const lines = data.split('\n');
-    const result: Genre[] = [];
+    const result: string[] = [];
     const headers = lines[0].split(',');
 
     console.log('Headers: ', headers);
@@ -78,22 +78,19 @@ export class CsvService {
         continue;
       }
 
-      // split the genres by ;
-      const genres = currentLine[headers.indexOf('genres')].split(';');
+      // split the platforms by ;
+      const platforms = currentLine[headers.indexOf('platforms')].split(';');
 
-      // check if the genre is already in the result
-      for (const genre of genres) {
-        const newGenre: Genre = {
-          genre: genre.trim()
-        };
-
-        if (!result.some((item) => item.genre === newGenre.genre)) {
-          result.push(newGenre);
+      // check if the platform is already in the result
+      for (const platform of platforms) {
+        if (!result.includes(platform.trim())) {
+          result.push(platform.trim());
         }
       }
     }
     return result;
   }
+
 
   getDropDownGames(): Observable<DropDownGame[]> {
     // read a csv file and return the list of games

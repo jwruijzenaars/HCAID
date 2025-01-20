@@ -2,14 +2,14 @@
 <br>
 <br>
 
-<div *ngIf="gameList.length === 0 && genreList.length === 0 && categoriesList.length === 0" class="m-auto w-25">
+<div *ngIf="gameList.length === 0 && platformList.length === 0 && categoriesList.length === 0" class="m-auto w-25">
     <h1 class="h3 mb-3 fw-normal">Loading data, please wait...</h1>
     <div class="spinner-border text-primary spinner-border-lg m-auto">
 
     </div>
 </div>
 
-<div *ngIf="gameList.length !== 0 && genreList.length !== 0 && categoriesList.length !== 0"
+<div *ngIf="gameList.length !== 0 && platformList.length !== 0 && categoriesList.length !== 0"
     class="card w-50 m-auto shadow-sm">
     <main class="form-signin card-body m-auto p-3 w-75">
         <form [formGroup]="gameSelectorForm" (ngSubmit)="onSubmit()">
@@ -32,17 +32,18 @@
             <br>
 
             <div class="form-floating mb-6">
-                <ng-multiselect-dropdown class="floating-input form-range" id="genres" [placeholder]="'Select Genres'"
-                    [settings]="genreddSettings" [data]="genreList" [(ngModel)]="selectedGenres"
-                    [ngModelOptions]="{standalone: true}" (onSelect)="onGenreSelect($event)">
+                <ng-multiselect-dropdown class="floating-input form-range" id="platforms"
+                    [placeholder]="'Select Platforms'" [settings]="platformddSettings" [data]="platformList"
+                    [(ngModel)]="selectedPlatforms" [ngModelOptions]="{standalone: true}"
+                    (onSelect)="onPlatformSelect($event)">
                 </ng-multiselect-dropdown>
             </div>
             <br>
 
-            <div *ngIf="submitted && selectedGenres.length === 0" id="genres-popover"
+            <div *ngIf="submitted && selectedPlatforms.length === 0" id="platforms-popover"
                 class="alert alert-danger alert-dismissible fade show">
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong>At least 1 genre is required.</strong>
+                <strong>At least 1 platform is required.</strong>
             </div>
             <br>
 
