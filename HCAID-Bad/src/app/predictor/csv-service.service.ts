@@ -163,4 +163,64 @@ export class CsvService {
     }
     return result;
   }
+
+  getGameNameStats(): Observable<any> {
+    return this.http.get(this.csvUrl, { responseType: 'text' }).pipe(
+      map(data => this.csvToGameNameStats(data))
+    );
+  }
+
+  csvToGameNameStats(data: string): any {
+    // read a csv file and return the list name lengths as weel as mean and standard deviation
+    const lines = data.split('\n');
+    const headers = lines[0].split(',');
+    headers[17] = headers[17].substring(0, headers[17].length - 1); // Remove the newline character from the last header
+
+    const nameLengths = [];
+    for (let i = 1; i < lines.length; i++) {
+      const currentLine = lines[i].split(',');
+      if (currentLine.length !== headers.length) {
+        continue;
+      }
+      nameLengths.push(currentLine[headers.indexOf('name')].trim().length);
+    }
+
+    const mean = nameLengths.reduce((a, b) => a + b) / nameLengths.length;
+    const std = Math.sqrt(nameLengths.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / nameLengths.length);
+
+    return {
+      mean,
+      std
+    };
+  }
+
+  getGamePriceStats(): Observable<any> {
+    return this.http.get(this.csvUrl, { responseType: 'text' }).pipe(
+      map(data => this.csvToGamePriceStats(data))
+    );
+  }
+
+  csvToGamePriceStats(data: string): any {
+    // read a csv file and return the list of prices as weel as mean and standard deviation
+    const lines = data.split('\n');
+    const headers = lines[0].split(',');
+    headers[17] = headers[17].substring(0, headers[17].length - 1); // Remove the newline character from the last header
+
+    const prices = [];
+    for (let i = 1; i < lines.length; i++) {
+      const currentLine = lines[i].split(',');
+      if (currentLine.length !== headers.length) {
+        continue;
+      }
+      prices.push(Number(currentLine[headers.indexOf('price')].trim().substring(0, currentLine[headers.indexOf('price')].trim().length - 1)));
+    }
+
+    const mean = prices.reduce((a, b) => a + b) / prices.length;
+    const std = Math.sqrt(prices.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / prices.length);
+
+    return {
+      mean,
+      std
+    };
+  }
 }

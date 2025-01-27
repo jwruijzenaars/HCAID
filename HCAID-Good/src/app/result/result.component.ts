@@ -8,8 +8,6 @@ import { Router } from '@angular/router';
 })
 export class ResultComponent {
   isPositive: boolean = true;
-  confidence: number = 82;
-  featureImportance: { name: string; percentage: number }[] = [];
   title = '';
   categories: string[] = [];
   platforms: string[] = [];
@@ -21,8 +19,6 @@ export class ResultComponent {
 
     if (state?.data) {
       this.isPositive = state.data.result;
-      this.confidence = state.data.confidence;
-      this.featureImportance = state.data.featureImportance;
       this.title = state.data.title;
       this.categories = state.data.categories;
       this.platforms = state.data.platforms;

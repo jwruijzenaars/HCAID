@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { CsvService } from './csv-service.service';
-import { DropDownGame } from './dropdown-game';
 import { Category } from './category';
 import { Platform } from './platform';
 import { Router } from '@angular/router';
+import * as tf from '@tensorflow/tfjs';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-predictor',
@@ -26,8 +27,10 @@ export class PredictorComponent {
   gameddSettings: IDropdownSettings = {};
   platformddSettings: IDropdownSettings = {};
   categoriesddSettings: IDropdownSettings = {};
+  nameNumericalData: any;
+  priceNumericalData: any;
 
-  ngOnInit() {
+  async ngOnInit() {
     this.platformddSettings = {
       singleSelection: false,
       idField: 'platform',
@@ -58,6 +61,14 @@ export class PredictorComponent {
 
     this.csvService.getPlatforms().subscribe((data: Platform[]) => {
       this.platformList = data;
+    });
+
+    this.csvService.getGameNameStats().subscribe((data: any) => {
+      this.nameNumericalData = data
+    });
+
+    this.csvService.getGamePriceStats().subscribe((data: any) => {
+      this.priceNumericalData = data;
     });
   }
 
@@ -93,24 +104,16 @@ export class PredictorComponent {
     }
 
     // Placeholder for server-side authentication logic (mock)
-    const title = this.gameSelectorForm.value.title;
+    const title = this.gameSelectorForm.value.title as string;
     const platforms = (this.selectedPlatforms as Platform[]).map((item) => item.platform);
     const categories = (this.selectedCategories as Category[]).map((item) => item.category);
-    const price = this.gameSelectorForm.value.price;
+    const price = this.gameSelectorForm.value.price as number;
 
-    // Do prediction here
-    console.log("Do prediction here...");
+    const preparedData = this.prepareData(title, platforms, categories, price);
+    const pred_result = this.doPrediction(preparedData);
 
-    // Mock prediction response
     const prediction = {
-      result: true, // Example: Positive prediction
-      confidence: 82, // Example confidence
-      featureImportance: [
-        { name: 'Title', percentage: 40 },
-        { name: 'Categories', percentage: 30 },
-        { name: 'Platforms', percentage: 20 },
-        { name: 'Price', percentage: 10 }
-      ],
+      result: pred_result,
       title,
       platforms,
       categories,
@@ -121,9 +124,69 @@ export class PredictorComponent {
     this.router.navigate(['/prediction-result'], { state: { data: prediction } });
   }
 
+  prepareData(title: string, platforms: string[], categories: string[], price: number): any {
+    // Placeholder for data preparation logic
+    console.log("Preparing data");
+    // Prepare data for prediction, convert text to numerical values(title), and one hot encode categorical data(categories, platforms)
+    // Convert text to numerical values (title)
+    const titleNumerical = title.length;
+
+    // One hot encode categorical data (platforms, categories)
+    const platformsOneHot = this.computeTfidf(platforms, this.platformList.map((item) => item.platform));
+    const categoriesOneHot = this.computeTfidf(categories, this.categoriesList.map((item) => item.category));
+
+    // Normalize the price
+    const normalisedPrice = (price - this.priceNumericalData.mean) / this.priceNumericalData.std;
+
+    // Normalize the title
+    const normalisedTitle = (titleNumerical - this.nameNumericalData.mean) / this.nameNumericalData.std;
+
+    // Combine all prepared data
+    const preparedData = [
+      normalisedTitle,
+      ...platformsOneHot,
+      ...categoriesOneHot,
+      normalisedPrice
+    ];
+
+    const X = tf.tensor2d([preparedData], [1, preparedData.length]);
+    console.log("Preprocessed Features (X_test_sampled):", X.toString());
+    return X;
+  }
+
   updatePrice(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.price = +input.value; // Update the price property
+  }
+
+  async doPrediction(data: any): Promise<boolean> {
+    const model = await tf.loadLayersModel('assets/model.json');
+    const prediction = model.predict(data);
+
+    if (Array.isArray(prediction)) {
+      const result = prediction[0].dataSync()[0] > 0.5;
+      return result;
+    } else {
+      const result = prediction.dataSync()[0] > 0.5;
+      return result;
+    }
+  }
+
+  computeTfidf(inputTerms: string[], vocabulary: string[]): number[] {
+    // Initialize the TF-IDF vector with zeros, one for each term in the vocabulary
+    const tfidfVector = new Array(vocabulary.length).fill(0);
+
+    // Iterate over the input terms
+    inputTerms.forEach((term) => {
+      const index = vocabulary.indexOf(term); // Find the index of the term in the vocabulary
+      if (index !== -1) {
+        tfidfVector[index] += 1; // Increment the frequency for that term
+      }
+    });
+
+    // Normalize by the total number of input terms (basic TF normalization)
+    const totalTerms = inputTerms.length;
+    return tfidfVector.map((value) => (totalTerms > 0 ? value / totalTerms : 0));
   }
 
 }

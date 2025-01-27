@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ResultComponent } from './result/result.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     LoginComponent,
     HomeComponent,
     RegisterComponent,
-    PredictorComponent
+    PredictorComponent,
+    ResultComponent
   ],
   imports: [
     BrowserModule,

@@ -2,15 +2,14 @@
 <br>
 <br>
 
-<div *ngIf="gameList.length === 0 && platformList.length === 0 && categoriesList.length === 0" class="m-auto w-25">
+<div *ngIf="platformList.length === 0 && categoriesList.length === 0" class="m-auto w-25">
     <h1 class="h3 mb-3 fw-normal">Loading data, please wait...</h1>
     <div class="spinner-border text-primary spinner-border-lg m-auto">
 
     </div>
 </div>
 
-<div *ngIf="gameList.length !== 0 && platformList.length !== 0 && categoriesList.length !== 0"
-    class="card w-50 m-auto shadow-sm">
+<div *ngIf="platformList.length !== 0 && categoriesList.length !== 0" class="card w-50 m-auto shadow-sm">
     <main class="form-signin card-body m-auto p-3 w-75">
         <form [formGroup]="gameSelectorForm" (ngSubmit)="onSubmit()">
 
@@ -20,9 +19,9 @@
             <br>
 
             <div class="form-floating mb-3">
-                <input type="text" formControlName="title" class="form-control" id="floatingInput"
+                <input type="text" formControlName="title" class="form-control" id="title"
                     placeholder="name@example.com" />
-                <label for="floatingInput">Game title</label>
+                <label for="title">Game title</label>
             </div>
 
             <div *ngIf="submitted && f['title'].errors" class="alert alert-danger alert-dismissible fade show">

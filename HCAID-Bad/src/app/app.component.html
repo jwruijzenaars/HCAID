@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark m-auto">
   <div class="container-fluid w-75">
-    <a class="navbar-brand fs-3" href="/">Mistmachine</a>
+    <a class="navbar-brand fs-3" href="/">Succestimator</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -23,11 +23,6 @@
               </li>
               <li *ngIf="!authService.isAuthenticated()">
                 <a class="dropdown-item fs-5" href="/register">Register</a>
-              </li>
-              <li>
-                <a *ngIf="authService.isAuthenticated()" class="dropdown-item fs-5" href="/">My
-                  account</a>
-                <!-- Actually add the link here when page exists -->
               </li>
               <li>
                 <a *ngIf="authService.isAuthenticated()" class="dropdown-item fs-5" (click)="logout()"

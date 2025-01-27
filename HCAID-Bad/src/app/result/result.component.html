@@ -1,0 +1,24 @@
+<br>
+<br>
+<br>
+
+<div class="card w-50 m-auto shadow-sm">
+    <main class="form-signin card-body m-auto p-3 w-75">
+        <div class="d-flex justify-content-center">
+            <h1 class="h3 mb-3 fw-normal">Prediction Result</h1>
+        </div>
+        <br>
+
+        <div class="alert alert-success" *ngIf="isPositive">
+            <strong>Prediction: Positive</strong>
+        </div>
+        <div class="alert alert-danger" *ngIf="!isPositive">
+            <strong>Prediction: Negative</strong>
+        </div>
+
+    </main>
+</div>
+
+<br>
+<br>
+<br>
